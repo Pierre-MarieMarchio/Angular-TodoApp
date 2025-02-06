@@ -1,0 +1,19 @@
+<form
+  [formGroup]="applyForm"
+  class="flex flex-row items-center gap-5"
+  (submit)="emailsubmit()"
+>
+  <input
+    class="h-18 p-4 min-w-84 ring p-2 rounded-sm text-md"
+    type="text"
+    placeholder="Adresse e-mail"
+    formControlName="email"
+  />
+  <ui-primary-button
+    type="submit"
+    textSize="text-2xl"
+    height="h-18"
+    padding="p-4"
+    label="Commencer >"
+  />
+</form>

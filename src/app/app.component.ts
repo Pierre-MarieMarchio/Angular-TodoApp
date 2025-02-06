@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from "./core/layouts/footer/footer.component";
 
+
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, FooterComponent],

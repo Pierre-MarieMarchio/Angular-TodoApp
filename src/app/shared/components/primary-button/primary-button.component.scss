@@ -1,0 +1,97 @@
+@use "tailwindcss";
+
+.black {
+  @apply bg-black;
+}
+
+.white {
+  @apply bg-white;
+}
+
+.gray {
+  @apply bg-gray-600;
+}
+
+.slate {
+  @apply bg-slate-600;
+}
+
+.zinc {
+  @apply bg-zinc-600;
+}
+
+.neutral {
+  @apply bg-neutral-600;
+}
+
+.stone {
+  @apply bg-stone-600;
+}
+
+.red {
+  @apply bg-red-600;
+}
+
+.orange {
+  @apply bg-orange-600;
+}
+
+.amber {
+  @apply bg-amber-600;
+}
+
+.yellow {
+  @apply bg-yellow-600;
+}
+
+.lime {
+  @apply bg-lime-600;
+}
+
+.green {
+  @apply bg-green-600;
+}
+
+.emerald {
+  @apply bg-emerald-600;
+}
+
+.teal {
+  @apply bg-teal-600;
+}
+
+.cyan {
+  @apply bg-cyan-600;
+}
+
+.sky {
+  @apply bg-sky-600;
+}
+
+.blue {
+  @apply bg-blue-600;
+}
+
+.indigo {
+  @apply bg-indigo-600;
+}
+
+.violet {
+  @apply bg-violet-600;
+}
+
+.purple {
+  @apply bg-purple-600;
+}
+
+.fuchsia {
+  @apply bg-fuchsia-600;
+}
+
+.pink {
+  @apply bg-pink-600;
+}
+
+.rose {
+  @apply bg-rose-600;
+}
