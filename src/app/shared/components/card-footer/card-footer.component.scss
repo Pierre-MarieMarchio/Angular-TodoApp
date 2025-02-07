@@ -1,0 +1,5 @@
+@use "tailwindcss";
+
+.card-footer {
+  @apply pt-2 mt-3 text-right;
+}

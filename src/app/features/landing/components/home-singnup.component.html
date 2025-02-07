@@ -1,11 +1,11 @@
 <form
   [formGroup]="applyForm"
   class="flex flex-row items-center gap-5"
-  (submit)="emailsubmit()"
+  (ngSubmit)="handleSubmit()"
 >
   <input
     class="h-18 p-4 min-w-84 ring p-2 rounded-sm text-md"
-    type="text"
+    type="email"
     placeholder="Adresse e-mail"
     formControlName="email"
   />

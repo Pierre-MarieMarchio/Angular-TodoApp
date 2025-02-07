@@ -1,9 +1,8 @@
 <button
-  type={{type()}}
+  [type]="type()"
   (click)="onClick.emit()"
-  class="{{ textSize() }} {{ height() }} {{ width() }} {{
-    padding()
-  }} bg-red-600 p-2 rounded-sm hover:bg-red-700 cursor-pointer"
+  [class]="textSize() + ' ' + height() + ' ' + width() + ' ' + padding()"
+  class=" bg-red-600 p-2 rounded-sm hover:bg-red-700 cursor-pointer"
 >
   {{ label() }}
 </button>

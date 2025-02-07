@@ -1,0 +1,49 @@
+<div class="max-w-md">
+  <ui-card>
+    <ui-card-header>
+      <h2>Créez un mot de passe pour activer votre compte</h2>
+    </ui-card-header>
+    <form [formGroup]="registerForm" (ngSubmit)="handleSubmit()">
+      <ui-card-body>
+        <p class="text-xl text-white">Plus qu'une étape et c'est fini !</p>
+        <p class="text-xl text-white">Plus rien à remplir promis.</p>
+        <div class="mt-5">
+          <input
+            class="h-16 p-4 w-full ring my-3 p-2 rounded-sm text-md"
+            type="email"
+            placeholder="E-mail"
+            formControlName="email"
+          />
+
+          <input
+            class="h-16 p-4 w-full ring my-3 p-2 rounded-sm text-md"
+            type="text"
+            placeholder="Votre Pseudo"
+            formControlName="userName"
+          />
+
+          <input
+            class="h-16 p-4 w-full ring my-3 p-2 rounded-sm text-md"
+            type="password"
+            placeholder="Ajouter un mot de passe "
+            formControlName="password1"
+          />
+          <input
+            class="h-16 p-4 w-full ring my-3 p-2 rounded-sm text-md"
+            type="password"
+            placeholder="Verifier le mot de passe "
+            formControlName="password2"
+          />
+        </div>
+      </ui-card-body>
+      <ui-card-footer>
+        <ui-primary-button
+          class="text-xl font-bold"
+          type="submit"
+          height="h-18"
+          label="S'inscrire"
+        />
+      </ui-card-footer>
+    </form>
+  </ui-card>
+</div>

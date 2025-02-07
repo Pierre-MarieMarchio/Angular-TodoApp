@@ -1,0 +1,10 @@
+@use "tailwindcss";
+
+.card {
+  @apply bg-white/10 backdrop-blur-md text-white 
+         m-1 p-4 rounded-xl shadow-xl;
+}
+
+.card-content {
+  @apply flex flex-col;
+}

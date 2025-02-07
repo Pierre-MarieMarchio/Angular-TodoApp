@@ -1,0 +1,5 @@
+@use "tailwindcss";
+
+.card-body {
+  @apply text-gray-300 pb-2 mb-3;
+}

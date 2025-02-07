@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EmailService {
+  private readonly router = inject(Router);
   private email: string | null = null;
 
   constructor() {}
@@ -16,7 +18,8 @@ export class EmailService {
     this.email = value;
   }
 
-  submitEmail(email: string | null): void {
-    console.log('email is : ' + email);
+  submitEmail(email: string ): void {
+    this.setEmail(email);
+    this.router.navigate(['/signup']);
   }
 }

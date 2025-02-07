@@ -1,14 +1,5 @@
 <section class="p-5 flex flex-col min-h-full">
-  <div class="flex justify-between">
-    <div class="text-6xl font-bold">TodoList App</div>
-    <div>
-      <ui-primary-button
-        (onClick)="showButtonClick()"
-        label="S'identifier"
-        color="red"
-      />
-    </div>
-  </div>
+  <layout-header />
   <div class="flex-grow flex">
     <div class="p-15 flex-grow flex flex-col justify-center items-center gap-6">
       <div class="flex flex-col justify-center items-center gap-3">
@@ -19,8 +10,10 @@
           accomplie. Arrêtez d'oublier. Commencez à cocher.
         </p>
       </div>
-
       <app-home-singnup></app-home-singnup>
+      <form>
+      </form>
+
     </div>
   </div>
 </section>

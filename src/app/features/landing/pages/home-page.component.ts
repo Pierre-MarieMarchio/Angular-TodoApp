@@ -1,15 +1,11 @@
 import { Component } from '@angular/core';
-import { HomeSingnupComponent } from '../components/home-singnup/home-singnup.component';
-import { PrimaryButtonComponent } from '../../../shared/components/primary-button/primary-button.component';
+import { HomeSingnupComponent } from '../components/home-singnup.component';
+import { HeaderComponent } from '../../../core/layouts/header/header.component';
 
 @Component({
   selector: 'app-home-page',
-  imports: [HomeSingnupComponent, PrimaryButtonComponent],
+  imports: [HomeSingnupComponent, HeaderComponent],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
 })
-export class HomePageComponent {
-  showButtonClick() {
-    console.log('clicked');
-  }
-}
+export class HomePageComponent {}

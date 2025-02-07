@@ -11,7 +11,7 @@ export class PrimaryButtonComponent {
   type = input<string>('button');
   textSize = input<string>('');
   height = input<string>('');
-  width = input<string>('');
+  width = input<string>('w-full');
   padding = input<string>('');
   onClick = output();
 }
