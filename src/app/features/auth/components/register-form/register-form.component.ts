@@ -1,9 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { CardHeaderComponent } from '../../../../shared/components/card-header/card-header.component';
-import { CardBodyComponent } from '../../../../shared/components/card-body/card-body.component';
-import { CardFooterComponent } from '../../../../shared/components/card-footer/card-footer.component';
-import { PrimaryButtonComponent } from '../../../../shared/components/primary-button/primary-button.component';
-import { CardComponent } from '../../../../shared/components/card/card.component';
+
+import { PrimaryButtonComponent } from '../../../../core/ui/primary-button/primary-button.component';
+import { CardComponent } from '../../../../core/ui/card/card.component';
 import {
   FormControl,
   FormGroup,
@@ -13,6 +11,9 @@ import {
 import { RegisterForm } from '../../interfaces/registerForm.interface';
 import { EmailService } from '../../../../shared/services/email.service';
 import { AuthService } from '../../services/auth.service';
+import { CardHeaderComponent } from '../../../../core/ui/card-header/card-header.component';
+import { CardBodyComponent } from '../../../../core/ui/card-body/card-body.component';
+import { CardFooterComponent } from '../../../../core/ui/card-footer/card-footer.component';
 
 @Component({
   selector: 'app-register-form',

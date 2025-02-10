@@ -1,6 +1,7 @@
 <div class="mb-8">
   <div class="my-4 flex justify-between items-center">
     <div class="text-6xl font-bold"><span>TodoList App</span></div>
+    <div>{{ users.hasValue() ? users.value()?.length : null }}</div>
     <div>
       <ui-primary-button
         (onClick)="showButtonClick()"

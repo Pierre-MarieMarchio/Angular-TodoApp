@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { PrimaryButtonComponent } from '../../../shared/components/primary-button/primary-button.component';
+import { PrimaryButtonComponent } from '../../../core/ui/primary-button/primary-button.component';
 import { EmailService } from '../../../shared/services/email.service';
 import {
   FormControl,
