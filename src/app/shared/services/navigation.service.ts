@@ -18,4 +18,8 @@ export class NavigationService {
   public landingPage() {
     this.router.navigate(['/']);
   }
+
+  public todoListPage() {
+    this.router.navigate(['/home']);
+  }
 }

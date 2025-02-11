@@ -20,6 +20,6 @@ export class EmailService {
 
   submitEmail(email: string): void {
     this.setEmail(email);
-    this.navigate.loginPage();
+    this.navigate.registerPage();
   }
 }
