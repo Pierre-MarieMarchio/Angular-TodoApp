@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, resource, ResourceRef } from '@angular/core';
 import { firstValueFrom, Observable } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BaseRepository {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = 'https://localhost:7115/api';
+  private readonly baseUrl = environment.apiURL;
 
   getObservable<T>(endpoint: string): Observable<T> {
     return this.http.get<T>(`${this.baseUrl}/${endpoint}`);
