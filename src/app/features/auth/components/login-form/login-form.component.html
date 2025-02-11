@@ -1,1 +1,35 @@
-<p>login-form works!</p>
+<div class="max-w-md">
+  <ui-card>
+    <ui-card-header>
+      <h2>Connectez-vous à votre compte</h2>
+    </ui-card-header>
+    <form [formGroup]="loginForm" (ngSubmit)="handleLogin()">
+      <ui-card-body>
+        <p class="text-xl text-white">Bienvenue de retour !</p>
+        <p class="text-xl text-white">Entrez vos identifiants pour continuer.</p>
+        <div class="mt-5">
+          <input
+            class="h-16 p-4 w-full ring my-3 p-2 rounded-sm text-md"
+            type="email"
+            placeholder="E-mail"
+            formControlName="email"
+          />
+          <input
+            class="h-16 p-4 w-full ring my-3 p-2 rounded-sm text-md"
+            type="password"
+            placeholder="Mot de passe"
+            formControlName="password"
+          />
+        </div>
+      </ui-card-body>
+      <ui-card-footer>
+        <ui-primary-button
+          class="text-xl font-bold"
+          type="submit"
+          height="h-18"
+          label="Se connecter"
+        />
+      </ui-card-footer>
+    </form>
+  </ui-card>
+</div>

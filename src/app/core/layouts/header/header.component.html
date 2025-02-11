@@ -1,9 +1,9 @@
 <div class="mb-8">
   <div class="my-4 flex justify-between items-center">
-    <div class="text-6xl font-bold"><span>TodoList App</span></div>
+    <div class="text-6xl font-bold cursor-pointer"><span (click)="navigateToHomePage()">TodoList App</span></div>
     <div>
       <ui-primary-button
-        (onClick)="showButtonClick()"
+        (onClick)="navigateToLoginPage()"
         label="S'identifier"
         color="red"
       />

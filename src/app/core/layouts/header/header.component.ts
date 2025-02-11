@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { PrimaryButtonComponent } from '../../ui/primary-button/primary-button.component';
+import { NavigationService } from '../../../shared/services/navigation.service';
 
 @Component({
   selector: 'layout-header',
@@ -8,7 +9,13 @@ import { PrimaryButtonComponent } from '../../ui/primary-button/primary-button.c
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  showButtonClick() {
-    console.log('clicked');
+  private readonly navigate = inject(NavigationService);
+
+  navigateToLoginPage() {
+    this.navigate.loginPage();
+  }
+
+  navigateToHomePage() {
+    this.navigate.landingPage();
   }
 }

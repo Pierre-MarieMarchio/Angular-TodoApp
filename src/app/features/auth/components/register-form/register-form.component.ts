@@ -8,7 +8,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RegisterForm } from '../../interfaces/registerForm.interface';
+import { RegisterForm } from '../../interfaces/register-form.interface';
 import { EmailService } from '../../../../shared/services/email.service';
 import { AuthService } from '../../services/auth.service';
 import { CardHeaderComponent } from '../../../../core/ui/card-header/card-header.component';
@@ -40,10 +40,6 @@ export class RegisterFormComponent {
         Validators.email,
         Validators.maxLength(100),
       ],
-    }),
-    userName: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.maxLength(50)],
     }),
     password1: new FormControl('', {
       nonNullable: true,

@@ -9,7 +9,6 @@ import { environment } from '../../../environments/environment.development';
 export abstract class BaseRepositoryService<T> {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = environment.apiURL;
-
   protected abstract readonly resource: string;
 
   listResource = resource({

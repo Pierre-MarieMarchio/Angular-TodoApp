@@ -1,27 +1,40 @@
-import { Injectable } from '@angular/core';
-import { RegisterForm } from '../interfaces/registerForm.interface';
+import { inject, Injectable } from '@angular/core';
+import { RegisterForm } from '../interfaces/register-form.interface';
 import { FormGroup } from '@angular/forms';
+import { AuthRepositoryService } from '../repositories/auth-repository.service';
+import { User } from '../interfaces/user.interface';
+import { LoginForm } from '../interfaces/login-form.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  baseUrl = 'https://localhost:7115/api';
-
-  constructor() {}
+  authRepo = inject(AuthRepositoryService);
 
   public handleRegister(registerForm: FormGroup<RegisterForm>): void {
     const email = registerForm.value.email;
-    const userName = registerForm.value.userName;
     const password = registerForm.value.password1;
 
-    const user = {
-      username: userName,
-      email: email,
-      password: password,
+    const user: User = {
+      email: email ?? '',
+      password: password ?? '',
     };
 
-    this.postData('User', user);
+    console.log(user);
+    this.authRepo.register(user);
+  }
+
+  public handleLogin(loginForm: FormGroup<LoginForm>): void {
+    const email = loginForm.value.email;
+    const password = loginForm.value.password;
+
+    const user: User = {
+      email: email ?? '',
+      password: password ?? '',
+    };
+
+    console.log(user);
+    this.authRepo.login(user);
   }
 
   public passwordMatch(registerForm: FormGroup<RegisterForm>): boolean {
@@ -29,26 +42,5 @@ export class AuthService {
       return false;
     }
     return true;
-  }
-
-  private async postData<T>(endpoint: string, data: any): Promise<T> {
-    try {
-      const response = await fetch(`${this.baseUrl}/${endpoint}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Erreur HTTP: ${response.status}`);
-      }
-
-      return response.json() as Promise<T>;
-    } catch (error) {
-      console.error('Erreur lors de la requête POST', error);
-      throw error;
-    }
   }
 }
