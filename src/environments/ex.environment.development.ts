@@ -1,4 +1,4 @@
 export const environment = {
-  production: "BOOLEAN",
+  production: 'BOOLEAN',
   apiURL: 'API_URL',
 };
