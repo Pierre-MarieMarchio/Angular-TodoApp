@@ -7,8 +7,7 @@ import { NavigationService } from '../../../shared/services/navigation.service';
 import { UserStateService } from '../../../shared/services/user-state.service';
 import { AuthStorageService } from './auth-storage.service';
 import { AuthStateService } from './auth-state.service';
-import { LoginResponse } from '../interfaces/login-response.interface';
-
+import { AuthResponse } from '../interfaces/login-response.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -20,11 +19,19 @@ export class AuthService {
   private readonly navigation = inject(NavigationService);
   private readonly userState = inject(UserStateService);
 
-  public handleRegister(registerForm: FormGroup<RegisterForm>): void {
-    const email = registerForm.value.email;
-    const password = registerForm.value.password1;
+  public passwordMatch(registerForm: FormGroup<RegisterForm>): boolean {
+    return registerForm.value.password1 === registerForm.value.password2;
+  }
 
-    this.authRepo.register(email!, password!).subscribe({
+  public handleRegister(registerForm: FormGroup<RegisterForm>): void {
+    const { email, password1: password } = registerForm.value;
+
+    if (!email || !password) {
+      console.error('Email ou mot de passe manquant');
+      return;
+    }
+
+    this.authRepo.register(email, password).subscribe({
       next: (response) => {
         if (response) {
           this.navigation.landingPage();
@@ -35,16 +42,16 @@ export class AuthService {
   }
 
   public handleLogin(loginForm: FormGroup<LoginForm>): void {
-    const email = loginForm.value.email;
-    const password = loginForm.value.password;
-
-    this.authRepo.login(email!, password!).subscribe({
+    const { email, password } = loginForm.value;
+    if (!email || !password) {
+      console.error('Email ou mot de passe manquant');
+      return;
+    }
+    this.authRepo.login(email, password).subscribe({
       next: (response) => {
         if (response) {
-          console.log('in login');
-
           this.setStorage(response);
-          this.setUserStates(response);
+          this.updateAuthAndUserStates(response);
           this.navigation.todoListPage();
         } else {
           console.warn('Login failed, API returned no data.');
@@ -55,54 +62,72 @@ export class AuthService {
   }
 
   public authenticate(): void {
-    this.authState.setAuthTokens({
-      accesToken: this.authStorage.getAccessToken()!,
-      refreshToken: this.authStorage.getRefreshToken()!,
-    });
+    const accesToken = this.authStorage.getAccessToken();
+    const refreshToken = this.authStorage.getRefreshToken();
+
+    if (!accesToken || !refreshToken) {
+      console.error('Tokens absents');
+      return;
+    }
+
+    this.authState.setAuthTokens({ accesToken, refreshToken });
 
     this.authRepo.authenticate().subscribe({
       next: (response) => {
         if (response) {
-          console.log(response);
-
           this.userState.setUser(response);
+          this.refreshToken();
         } else {
-          this.authState.clearAuthToken();
-          this.authStorage.clearTokens();
+          this.clearAuthData();
         }
       },
       error: (error) => console.error('Unexpected error', error),
     });
   }
 
-  public passwordMatch(registerForm: FormGroup<RegisterForm>): boolean {
-    if (registerForm.value.password1 != registerForm.value.password2) {
-      return false;
+  private refreshToken(): void {
+    const refreshToken = this.authState.authTokens()?.refreshToken;
+    if (!refreshToken) {
+      console.error('Refresh token absent');
+      return;
     }
-    return true;
+
+    this.authRepo.refreshToken(refreshToken).subscribe({
+      next: (response) => {
+        if (response) {
+          this.setStorage(response);
+          this.updateAuthAndUserStates(response);
+        }
+      },
+      error: (error) => console.error('Refresh token failed', error),
+    });
   }
 
-  private setUserStates(response: LoginResponse): void {
+  private updateAuthAndUserStates(response: AuthResponse): void {
     this.authState.setAuthTokens({
       accesToken: response.accessToken,
       refreshToken: response.refreshToken,
     });
-
+    
     this.authRepo.authenticate().subscribe({
-      next: (response) => {
-        if (response) {
-          this.userState.setUser(response);
+      next: (userResponse) => {
+        if (userResponse) {
+          this.userState.setUser(userResponse);
         } else {
-          this.authState.clearAuthToken();
-          this.authStorage.clearTokens();
+          this.clearAuthData();
         }
       },
       error: (error) => console.error('Unexpected error', error),
     });
   }
 
-  private setStorage(response: LoginResponse): void {
+  private setStorage(response: AuthResponse): void {
     this.authStorage.setAccessToken(response.accessToken);
     this.authStorage.setRefreshToken(response.refreshToken);
+  }
+
+  private clearAuthData(): void {
+    this.authState.clearAuthToken();
+    this.authStorage.clearTokens();
   }
 }

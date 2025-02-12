@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, map, Observable, of } from 'rxjs';
-import { LoginResponse } from '../interfaces/login-response.interface';
+import { AuthResponse } from '../interfaces/login-response.interface';
 import { User } from '../../../shared/interface/user.interface';
 
 @Injectable({
@@ -34,9 +34,9 @@ export class AuthRepositoryService {
   public login(
     email: string,
     password: string
-  ): Observable<LoginResponse | null> {
+  ): Observable<AuthResponse | null> {
     return this.http
-      .post<LoginResponse>(`${this.baseUrl}/login`, {
+      .post<AuthResponse>(`${this.baseUrl}/login`, {
         email: email,
         password: password,
       })
@@ -55,5 +55,16 @@ export class AuthRepositoryService {
         return of(null);
       })
     );
+  }
+
+  public refreshToken(token: string) {
+    return this.http
+      .post<AuthResponse>(`${this.baseUrl}/refresh`, { refreshToken: token })
+      .pipe(
+        catchError((error) => {
+          console.error('Error logging in user', error);
+          return of(null);
+        })
+      );
   }
 }
