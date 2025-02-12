@@ -4,6 +4,7 @@ import { SignupPageComponent } from './features/auth/pages/signup-page/signup-pa
 import { LoginPageComponent } from './features/auth/pages/login-page/login-page.component';
 import { TodoListPageComponent } from './features/todo-list/pages/todo-list-page.component';
 import { authGuard } from './features/auth/guards/auth.guard';
+import { loginGuard } from './features/auth/guards/login.guard';
 
 export const routes: Routes = [
   {
@@ -11,7 +12,7 @@ export const routes: Routes = [
     component: HomePageComponent,
     title: 'TodoList App - Commencez à cocher',
   },
-  { path: 'home', component: TodoListPageComponent, title: 'TodoList App' },
+  { path: 'home', component: TodoListPageComponent, title: 'TodoList App', canActivate: [loginGuard] },
   {
     path: 'signup',
     component: SignupPageComponent,

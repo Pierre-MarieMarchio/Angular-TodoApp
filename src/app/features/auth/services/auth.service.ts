@@ -8,6 +8,7 @@ import { UserStateService } from '../../../shared/services/user-state.service';
 import { AuthStorageService } from './auth-storage.service';
 import { AuthStateService } from './auth-state.service';
 import { AuthResponse } from '../interfaces/login-response.interface';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +28,6 @@ export class AuthService {
     const { email, password1: password } = registerForm.value;
 
     if (!email || !password) {
-      console.error('Email ou mot de passe manquant');
       return;
     }
 
@@ -43,16 +43,20 @@ export class AuthService {
 
   public handleLogin(loginForm: FormGroup<LoginForm>): void {
     const { email, password } = loginForm.value;
+
     if (!email || !password) {
-      console.error('Email ou mot de passe manquant');
       return;
     }
+
     this.authRepo.login(email, password).subscribe({
       next: (response) => {
         if (response) {
           this.setStorage(response);
-          this.updateAuthAndUserStates(response);
-          this.navigation.todoListPage();
+          this.updateAuthAndUserStates(response).subscribe({
+            next: () => {
+              this.navigation.todoListPage();
+            },
+          });
         } else {
           console.warn('Login failed, API returned no data.');
         }
@@ -66,7 +70,6 @@ export class AuthService {
     const refreshToken = this.authStorage.getRefreshToken();
 
     if (!accesToken || !refreshToken) {
-      console.error('Tokens absents');
       return;
     }
 
@@ -88,7 +91,6 @@ export class AuthService {
   private refreshToken(): void {
     const refreshToken = this.authState.authTokens()?.refreshToken;
     if (!refreshToken) {
-      console.error('Refresh token absent');
       return;
     }
 
@@ -96,29 +98,28 @@ export class AuthService {
       next: (response) => {
         if (response) {
           this.setStorage(response);
-          this.updateAuthAndUserStates(response);
+          this.updateAuthAndUserStates(response).subscribe();
         }
       },
       error: (error) => console.error('Refresh token failed', error),
     });
   }
 
-  private updateAuthAndUserStates(response: AuthResponse): void {
+  private updateAuthAndUserStates(response: AuthResponse) {
     this.authState.setAuthTokens({
       accesToken: response.accessToken,
       refreshToken: response.refreshToken,
     });
-    
-    this.authRepo.authenticate().subscribe({
-      next: (userResponse) => {
-        if (userResponse) {
-          this.userState.setUser(userResponse);
+
+    return this.authRepo.authenticate().pipe(
+      tap((response) => {
+        if (response) {
+          this.userState.setUser(response);
         } else {
           this.clearAuthData();
         }
-      },
-      error: (error) => console.error('Unexpected error', error),
-    });
+      })
+    );
   }
 
   private setStorage(response: AuthResponse): void {
