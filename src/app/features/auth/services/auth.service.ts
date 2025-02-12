@@ -8,7 +8,8 @@ import { UserStateService } from '../../../shared/services/user-state.service';
 import { AuthStorageService } from './auth-storage.service';
 import { AuthStateService } from './auth-state.service';
 import { AuthResponse } from '../interfaces/login-response.interface';
-import { tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
+import { User } from '../../../shared/interface/user.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -90,6 +91,7 @@ export class AuthService {
 
   private refreshToken(): void {
     const refreshToken = this.authState.authTokens()?.refreshToken;
+
     if (!refreshToken) {
       return;
     }
@@ -105,7 +107,9 @@ export class AuthService {
     });
   }
 
-  private updateAuthAndUserStates(response: AuthResponse) {
+  private updateAuthAndUserStates(
+    response: AuthResponse
+  ): Observable<User | null> {
     this.authState.setAuthTokens({
       accesToken: response.accessToken,
       refreshToken: response.refreshToken,
