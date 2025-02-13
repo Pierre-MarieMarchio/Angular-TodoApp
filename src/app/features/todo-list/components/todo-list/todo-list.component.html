@@ -1,6 +1,10 @@
 <p>todo-list works!</p>
 
 <ul>
-  <li><app-todo-item /></li>
-  <li><app-todo-item /></li>
+  <div *ngFor="let todo of this.todosList()">
+    <li>titre : {{ todo.title }}</li>
+  </div>
 </ul>
+
+<ui-primary-button label="add" (onClick)="addtest()" />
+<ui-primary-button label="delete" (onClick)="addtest()" />

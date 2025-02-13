@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, resource } from '@angular/core';
+import { computed, inject, Injectable, resource } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 
@@ -11,16 +11,14 @@ export abstract class BaseRepositoryService<T> {
   private readonly baseUrl = environment.apiURL;
   protected abstract readonly resource: string;
 
-  listResource = resource({
+  protected listResource = resource({
     loader: async () =>
       await firstValueFrom(
         this.http.get<T[]>(`${this.baseUrl}/${this.resource}`)
       ),
   });
 
-  get items() {
-    return this.listResource.value() ?? [];
-  }
+  items = computed<T[]>(() => this.listResource.value() ?? []);
 
   async getById(id: string): Promise<T> {
     return await firstValueFrom(
@@ -48,6 +46,6 @@ export abstract class BaseRepositoryService<T> {
     await firstValueFrom(
       this.http.delete<T>(`${this.baseUrl}/${this.resource}/${id}`)
     );
-    this.listResource.reload()
+    this.listResource.reload();
   }
 }
