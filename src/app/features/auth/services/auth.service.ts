@@ -8,7 +8,7 @@ import { UserStateService } from '../../../shared/services/user-state.service';
 import { AuthStorageService } from './auth-storage.service';
 import { AuthStateService } from './auth-state.service';
 import { AuthResponse } from '../interfaces/login-response.interface';
-import { Observable, tap } from 'rxjs';
+import { firstValueFrom, Observable, tap } from 'rxjs';
 import { User } from '../../../shared/interface/user.interface';
 
 @Injectable({
@@ -66,27 +66,35 @@ export class AuthService {
     });
   }
 
-  public authenticate(): void {
+  handleLogOut() {
+    this.clearAuthData();
+  }
+
+  public async authenticate(): Promise<boolean> {
     const accesToken = this.authStorage.getAccessToken();
     const refreshToken = this.authStorage.getRefreshToken();
 
     if (!accesToken || !refreshToken) {
-      return;
+      return false;
     }
 
     this.authState.setAuthTokens({ accesToken, refreshToken });
 
-    this.authRepo.authenticate().subscribe({
-      next: (response) => {
-        if (response) {
-          this.userState.setUser(response);
-          this.refreshToken();
-        } else {
-          this.clearAuthData();
-        }
-      },
-      error: (error) => console.error('Unexpected error', error),
-    });
+    try {
+      const response = await firstValueFrom(this.authRepo.authenticate());
+
+      if (response) {
+        this.userState.setUser(response);
+        this.refreshToken();
+        return true;
+      } else {
+        this.clearAuthData();
+        return false;
+      }
+    } catch (error) {
+      this.clearAuthData();
+      return false;
+    }
   }
 
   private refreshToken(): void {
@@ -134,5 +142,6 @@ export class AuthService {
   private clearAuthData(): void {
     this.authState.clearAuthToken();
     this.authStorage.clearTokens();
+    this.userState.clearUser();
   }
 }

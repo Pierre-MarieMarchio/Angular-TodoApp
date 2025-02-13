@@ -3,7 +3,7 @@ import { UserStateService } from '../../../shared/services/user-state.service';
 import { inject } from '@angular/core';
 import { NavigationService } from '../../../shared/services/navigation.service';
 
-export const loginGuard: CanActivateFn = (route, state) => {
+export const loginGuard: CanActivateFn = async (route, state) => {
   const userState = inject(UserStateService);
   const navigation = inject(NavigationService);
 

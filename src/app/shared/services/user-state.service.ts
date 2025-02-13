@@ -16,7 +16,7 @@ export class UserStateService {
   clearUser(): void {
     this.userSignal.set(null);
   }
-  
+
   get user() {
     return this.userSignal;
   }

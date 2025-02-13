@@ -9,10 +9,20 @@ import { loginGuard } from './features/auth/guards/login.guard';
 export const routes: Routes = [
   {
     path: '',
+    redirectTo: '/landing',
+    pathMatch: 'full',
+  },
+  {
+    path: 'landing',
     component: HomePageComponent,
     title: 'TodoList App - Commencez à cocher',
   },
-  { path: 'home', component: TodoListPageComponent, title: 'TodoList App', canActivate: [loginGuard] },
+  {
+    path: 'home',
+    component: TodoListPageComponent,
+    title: 'TodoList App',
+    canActivate: [loginGuard],
+  },
   {
     path: 'signup',
     component: SignupPageComponent,

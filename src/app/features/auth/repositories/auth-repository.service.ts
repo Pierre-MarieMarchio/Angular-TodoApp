@@ -48,7 +48,7 @@ export class AuthRepositoryService {
       );
   }
 
-  public authenticate() {
+  public authenticate(): Observable<User | null> {
     return this.http.get<User>(`${this.baseUrl}/manage/info-custom`).pipe(
       catchError((error) => {
         console.error('Error logging in user', error);
@@ -57,7 +57,7 @@ export class AuthRepositoryService {
     );
   }
 
-  public refreshToken(token: string) {
+  public refreshToken(token: string): Observable<AuthResponse | null> {
     return this.http
       .post<AuthResponse>(`${this.baseUrl}/refresh`, { refreshToken: token })
       .pipe(

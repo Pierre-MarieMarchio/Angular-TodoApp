@@ -18,4 +18,6 @@ export class HeaderComponent {
   navigateToHomePage() {
     this.navigate.landingPage();
   }
+
+  
 }
