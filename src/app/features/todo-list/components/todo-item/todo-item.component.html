@@ -1,2 +1,25 @@
-<p>todo-item works!</p>
- 
+<ui-card>
+  <div class="flex justify-between items-center">
+    <div class="flex w-full">
+      <input
+        #checkbox
+        class="mr-8 cursor-pointer"
+        type="checkbox"
+        [checked]="todo()?.isComplete"
+        (change)="this.isComplete.set(checkbox.checked); updateTodo()"
+      />
+      <input
+        #editInput
+        class="w-full mr-3"
+        type="text"
+        [value]="todo()?.title?.toString()"
+        (blur)="todo()!.title = editInput.value; updateTodo()"
+        (keyup.enter)="todo()!.title = editInput.value; updateTodo()"
+        [class.line-through]="todo()?.isComplete"
+        [class.text-gray-500]="todo()?.isComplete"
+        [disabled]="todo()?.isComplete"
+      />
+    </div>
+    <ui-primary-button label="delete" (onClick)="deleteTodo()" />
+  </div>
+</ui-card>

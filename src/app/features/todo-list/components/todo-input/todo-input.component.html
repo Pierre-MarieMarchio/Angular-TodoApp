@@ -1,2 +1,19 @@
-<p>todo-input works!</p>
- 
+<section class="py-15">
+  <ui-card>
+    <form [formGroup]="todoForm">
+      <div class="flex justify-between">
+        <input
+          formControlName="title"
+          class="flex flex-1"
+          type="text"
+          placeholder="Add a Note"
+        />
+        <ui-primary-button
+          class="ml-5"
+          label="Create "
+          (onClick)="createTodo()"
+        />
+      </div>
+    </form>
+  </ui-card>
+</section>

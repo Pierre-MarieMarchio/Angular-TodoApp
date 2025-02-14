@@ -34,7 +34,7 @@ export abstract class BaseRepositoryService<T> {
     return newItem;
   }
 
-  async update(item: T & { id: string }): Promise<T> {
+  async update(item: T & { id?: string }): Promise<T> {
     const updatedItem = await firstValueFrom(
       this.http.put<T>(`${this.baseUrl}/${this.resource}/${item.id}`, item)
     );

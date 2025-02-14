@@ -1,10 +1,9 @@
-<p>todo-list works!</p>
-
-<ul>
-  <div *ngFor="let todo of this.todosList()">
-    <li>titre : {{ todo.title }}</li>
-  </div>
-</ul>
-
-<ui-primary-button label="add" (onClick)="addtest()" />
-<ui-primary-button label="delete" (onClick)="addtest()" />
+<section class="todo-list">
+  <ul>
+    @for (todo of this.todosList(); track $index) {
+    <li class="mt-5">
+      <app-todo-item [todo]="todo" [id]="todo.id" />
+    </li>
+    }
+  </ul>
+</section>
